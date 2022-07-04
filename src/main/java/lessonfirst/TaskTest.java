@@ -1,9 +1,10 @@
 package lessonfirst;
 
+import com.sun.source.tree.AssertTree;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static lessonfirst.Main.*;
 
@@ -18,9 +19,8 @@ public class TaskTest {
         listS.add("Petr 5");
         listS.add("Alex 5");
         listS.add("Ivan 1");
-        System.out.println("1 task");
         System.out.println(showWinner(listS));
-        System.out.println();
+        Assert.assertEquals(showWinner(listS),"Petr");
     }
     @Test
     public void testSecondTask(){
@@ -38,9 +38,8 @@ public class TaskTest {
         postList.add(new Post("11",11));
         postList.add(new Post("12",12));
         postList.add(new Post("13",13));
-        System.out.println("2 task");
         System.out.println(getTop10(postList));
-        System.out.println();
+        Assert.assertEquals(getTop10(postList).stream().map(Post::getLikesCount).reduce(Integer::sum), Optional.of(85));
     }
     @Test
     public void testThirdTask(){
@@ -64,6 +63,16 @@ public class TaskTest {
         clientList.add(new Client(12,"12",12,new ArrayList<>(List.of(new Telephone(TelephoneType.STATIONARY, "12")))));
         clientList.add(new Client(13,"13",13,new ArrayList<>(List.of(new Telephone(TelephoneType.STATIONARY, "13")))));
         clientList.add(new Client(14,"14",14,new ArrayList<>(List.of(new Telephone(TelephoneType.STATIONARY, "14")))));
-        workWithStreamApi(clientList);
+        //1
+        Assert.assertEquals(sumOlds(clientList),304);
+        //2
+        Assert.assertEquals(getSetName(clientList).stream().findFirst(),Optional.of("1"));
+        //3
+        Assert.assertTrue(checkOldsBiggestWhen(clientList, 101));
+        Assert.assertFalse(checkOldsBiggestWhen(clientList, 102));
+        //6
+        Assert.assertEquals(getTelephonesAsString(clientList),"1,111; 12; 123; 12345; 2; 201; 200; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14");
+        //7
+        Assert.assertEquals(findOldest(clientList).getId(),102);
     }
 }
