@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Getter
-public class Post{
-    private String text;
-    private Integer likesCount;
+public class Telephone {
+    private TelephoneType type;
+    private String value;
 }

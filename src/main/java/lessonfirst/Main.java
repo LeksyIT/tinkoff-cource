@@ -1,41 +1,20 @@
 package lessonfirst;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        //Test 1 task
-//        List<String> listS = new ArrayList<>();
-//        listS.add("Ivan 5");
-//        listS.add("Alex 10");
-//        listS.add("Petr 10");
-//        listS.add("Ivan 6");
-//        listS.add("Petr 5");
-//        listS.add("Alex 5");
-//        listS.add("Ivan 1");
-//        System.out.println(showWinner(listS));
-
-        //Test 2 task
-        List<Post> postList = new ArrayList<>();
-        postList.add(new Post("1",1));
-        postList.add(new Post("2",2));
-        postList.add(new Post("3",3));
-        postList.add(new Post("4",4));
-        postList.add(new Post("5",5));
-        postList.add(new Post("6",6));
-        postList.add(new Post("7",7));
-        postList.add(new Post("8",8));
-        postList.add(new Post("9",9));
-        postList.add(new Post("10",10));
-        postList.add(new Post("11",11));
-        postList.add(new Post("12",12));
-        postList.add(new Post("13",13));
-        System.out.println(getTop10(postList));
-
 
     }
-    //1 задание
+
+    //1 task
+    //Написать метод, который на вход получает массив (или список) строк в формате
+    //“имя_игрока количество_очков”. Требуется вывести на экран имя победителя.
+    //Победителем считается тот, кто набрал больше всех очков и сделал это раньше
+    //остальных (у нескольких игроков может быть одинаковое количество очков).
+    //Порядок начисления очков определяется порядком следования элементов в массиве.
     public static String showWinner(List<String> competitors){
         Map<String,Integer> map = new LinkedHashMap<>(16,0.75f,true);
         for (String el:competitors) {
@@ -43,7 +22,10 @@ public class Main {
         }
         return  map.entrySet().stream().max(Map.Entry.comparingByValue()).orElse(new AbstractMap.SimpleEntry<>("Илья",9999)).getKey();
     }
-    //2 задание
+
+    //2 task
+    //Дан массив(список) из 1 млн. не отсортированных постов. Требуется найти 10 самых залайканых постов.
+    //Необходимо реализовать наиболее оптимальное решение по скорости и памяти.
     public static List<Post> getTop10(List<Post> posts){
         PriorityQueue<Post> queue = new PriorityQueue<>(Comparator.comparingInt(Post::getLikesCount));
         for (int i = 0; i < 10; i++) {
@@ -54,5 +36,63 @@ public class Main {
             queue.poll();
         }
         return  queue.stream().toList();
+    }
+
+    //3 task
+    //Задача на Stream API. Необходимо создать класс клиента со следующими полями:
+    //уникальный идентификатор, имя, возраст. Также у клиента есть список телефонов.
+    //Класс телефона содержит само значение и тип (стационарный или мобильный).
+    //Создать массив клиентов и выполнить следующие задания:
+    //1. Рассчитать суммарный возраст для определенного имени.
+    //2. Получить Set, который содержит в себе только имена клиентов в порядке их упоминания в исходном массиве.
+    //3. Узнать, содержит ли список хотя бы одного клиента, у которого возраст больше заданного числа.
+    //4. Преобразовать массив в Map, у которой ключ - уникальный идентификатор, значение - имя. Поддержать порядок, в котором клиенты добавлены в массив.
+    //5. Преобразовать массив в Map, у которой ключ - возраст, значение - коллекция клиентов с таким возрастом.
+    //6. Получить строку, содержащую телефоны всех клиентов через запятую. Предусмотреть, что у клиента телефонов может и не быть.
+    //7. Найти самого возрастного клиента, которой пользуется стационарным телефоном
+    public static void workWithStreamApi(List<Client> clientList){
+        System.out.println("3 task");
+        System.out.print("1.");
+        System.out.println(clientList
+                .stream()
+                .filter(x->x.getName().equals("1"))
+                .map(Client::getOld).reduce(Integer::sum)
+                .orElse(0));
+        System.out.print("2.");
+        System.out.println(clientList
+                .stream()
+                .map(Client::getName)
+                .collect(Collectors.toCollection(LinkedHashSet::new)).toString());
+        System.out.print("3.");
+        System.out.print(clientList
+                .stream()
+                .anyMatch(x->x.getOld()>101));
+        System.out.print(" ");
+        System.out.println(clientList
+                .stream()
+                .anyMatch(x->x.getOld()>102));
+        System.out.print("4.");
+        System.out.println(clientList
+                .stream()
+                .collect(Collectors.toMap(Client::getId, Client::getName,(x1,x2)->x1,LinkedHashMap::new))
+                .toString());
+        System.out.print("5.");
+        System.out.println(clientList
+                .stream()
+                .collect(Collectors.groupingBy(Client::getOld)));
+        System.out.print("6.");
+        System.out.println(clientList
+                .stream()
+                .map(x->x.getTelephoneList().stream().map(Telephone::getValue).collect(Collectors.toList()))
+                .filter(el->el.size()!=0)
+                .map(list-> String.join(",", list))
+                .collect(Collectors.joining("; ")));
+        System.out.print("7.");
+        System.out.println(clientList
+                .stream()
+                .filter(x->x.getTelephoneList()
+                        .stream()
+                        .anyMatch(telephone->telephone.getType().getType().equals("stationary")))
+                .max(Comparator.comparingInt(Client::getOld)).orElse(new Client()));
     }
 }
