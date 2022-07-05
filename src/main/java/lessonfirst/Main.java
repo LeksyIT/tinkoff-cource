@@ -6,6 +6,12 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        Deque<Integer> list = new LinkedList<>();
+        list.add(1421);
+        list.add(1421);
+        list.add(1421);
+        list.pollLast();
+        System.out.println(list);
     }
 
     //1 task
