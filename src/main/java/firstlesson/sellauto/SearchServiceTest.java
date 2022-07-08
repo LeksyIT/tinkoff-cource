@@ -1,6 +1,6 @@
-package lessonfirst.sellauto;
+package firstlesson.sellauto;
 
-import lessonfirst.sellauto.impl.SearchServiceImpl;
+import firstlesson.sellauto.impl.SearchServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -68,18 +68,18 @@ public class SearchServiceTest {
         vasilii.setFriends(Arrays.asList(arina, yulya));
         arina.setFriends(Arrays.asList(vasilii, dmitrii, natasha2));
         yulya.setFriends(Arrays.asList(vasilii, evgenii));
-        evgenii.setFriends(Arrays.asList(yulya));
+        evgenii.setFriends(List.of(yulya));
         konstantin.setFriends(Arrays.asList(vladimir, mariya));
-        vladimir.setFriends(Arrays.asList(konstantin));
+        vladimir.setFriends(List.of(konstantin));
         mariya.setFriends(Arrays.asList(konstantin, vasilii));
         dmitrii.setFriends(Arrays.asList(arina, anatolii, natasha));
         anatolii.setFriends(Arrays.asList(dmitrii, gennadii));
-        gennadii.setFriends(Arrays.asList(anatolii));
-        anna.setFriends(Arrays.asList(mikhail));
+        gennadii.setFriends(List.of(anatolii));
+        anna.setFriends(List.of(mikhail));
         mikhail.setFriends(Arrays.asList(sergei, anna));
         sergei.setFriends(Arrays.asList(natasha, mikhail));
         natasha.setFriends(Arrays.asList(dmitrii, sergei));
-        natasha2.setFriends(Arrays.asList(arina));
+        natasha2.setFriends(List.of(arina));
 
         SearchService service = new SearchServiceImpl();
 

@@ -1,11 +1,11 @@
-package lessonfirst;
+package firstlesson;
 
 import lombok.Getter;
 
 @Getter
 public enum TelephoneType {
-    STATIONARY ("stationary"),
-    MOBILE ("mobile");
+    STATIONARY("stationary"),
+    MOBILE("mobile");
 
     private final String type;
 

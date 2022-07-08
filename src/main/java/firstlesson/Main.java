@@ -1,6 +1,5 @@
-package lessonfirst;
+package firstlesson;
 
-import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,10 @@ public class Main {
         for (String el : competitors) {
             map.merge(el.split(" ")[0], Integer.parseInt(el.split(" ")[1]), Integer::sum);
         }
-        return map.entrySet().stream().max(Map.Entry.comparingByValue()).orElse(new AbstractMap.SimpleEntry<>("Илья", 9999)).getKey();
+        return map.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElse(new AbstractMap.SimpleEntry<>("Илья", 9999))
+                .getKey();
     }
 
     //2 task
@@ -50,8 +52,7 @@ public class Main {
     //Создать массив клиентов и выполнить следующие задания:
     //1. Рассчитать суммарный возраст для определенного имени.
     public static int sumOlds(List<Client> clientList) {
-        return clientList
-                .stream()
+        return clientList.stream()
                 .filter(x -> x.getName().equals("1"))
                 .map(Client::getOld).reduce(Integer::sum)
                 .orElse(0);

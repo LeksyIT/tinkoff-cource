@@ -1,4 +1,4 @@
-package lessonfirst;
+package firstlesson;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,5 +16,4 @@ public class Client {
     private String name;
     private int old;
     private List<Telephone> telephoneList;
-
 }
